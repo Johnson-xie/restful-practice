@@ -49,7 +49,8 @@ def toy_detail(request, pk):
     elif request.method == 'PUT':
         # toy_data = JSONParser().parse(request)
         # toy_serializer = ToySerializer(toy, data=toy_data)
-        toy_serializer = ToySerializer(data=request.data)
+        # 序列化器传入一个对象和处ID以外的其他字段数据
+        toy_serializer = ToySerializer(toy, data=request.data)
         if toy_serializer.is_valid():
             toy_serializer.save()
             return Response(toy_serializer.data)

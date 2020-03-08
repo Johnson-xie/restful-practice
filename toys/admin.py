@@ -4,4 +4,5 @@ from .models import Toy
 
 @admin.register(Toy)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description', 'created')
+
