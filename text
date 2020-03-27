@@ -1,0 +1,82 @@
+$ #cd to homebrew foler
+$ cd "$(brew --repo)"；
+$ #check  git remote status
+$ git remote -v;
+https://github.com/Homebrew/homebrew.git
+$ #update remote url with Coding.net
+$ git remote set-url origin https://git.coding.net/homebrew/homebrew.git
+$ brew update
+
+
+
+## 更新完brew 安装并使用postgreslq
+```
+在 mac 下，可以利用 homebrew 直接安装 PostgreSQL：
+
+1
+brew install postgresql -v
+稍等片刻，PostgreSQL 就安装完成。接下来就是初始数据库，在终端执行一下命令，初始配置 PostgreSQL：
+
+1
+initdb /usr/local/var/postgres -E utf8
+上面指定 "/usr/local/var/postgres" 为 PostgreSQL 的配置数据存放目录，并且设置数据库数据编码是 utf8，更多配置信息可以 "initdb --help" 查看。
+
+设成开机启动 PostgreSQL：
+
+1
+2
+ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+启动 PostgreSQL：
+
+1
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+关闭 PostgreSQL：
+
+1
+pg_ctl -D /usr/local/var/postgres stop -s -m fast
+创建一个 PostgreSQL 用户
+
+1
+2
+3
+createuser rick -P
+#Enter password for new role: rick
+#Enter it again:  rick
+上面的 rick 是用户名，回车输入 2 次用户密码后即用户创建完成。更多用户创建信息可以 "createuser --help" 查看。
+
+创建数据库
+
+1
+createdb drones -O rick -E UTF8 -e
+上面创建了一个名为 dbname 的数据库，并指定 username 为改数据库的拥有者（owner），数据库的编码（encoding）是 UTF8，参数 "-e" 是指把数据库执行操作的命令显示出来。
+
+更多数据库创建信息可以 "createdb --help" 查看。
+
+连接数据库
+
+1
+psql -U rick -d drones -h 127.0.0.1
+```
+DATABASES = {
+    'default': {
+'ENGINE': 'django.db.backends.postgresql',
+# Replace drones with your desired database name 'NAME': 'drones',
+# Replace username with your desired user name
+'USER': 'rick',
+# Replace password with your desired password
+'PASSWORD': 'rick',
+# Replace 127.0.0.1 with the PostgreSQL
+host 'HOST': '127.0.0.1',
+# Replace 5432 with the PostgreSQL configured port # in case you aren't using the default port
+'PORT': 5432,
+} }
+
+# pip install psycopg2报错
+brew install openssl
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+gcc找不到这个-lssl库
+
+# 登陆数据库
+psql psql -U rick -d drones -h 127.0.0.1
+
